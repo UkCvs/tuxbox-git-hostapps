@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: toolchecker.sh,v 1.10 2010/01/12 17:18:17 striper Exp $
+# $Id: toolchecker.sh,v 1.11 2010/01/12 17:33:51 striper Exp $
 #
 #
 # This program is free software; you can redistribute it and/or modify
@@ -170,7 +170,7 @@ INFOCMP=`which infocmp 2>/dev/null`
 if [ $TIC ] && [ $TIC != " " ] && [ $INFOCMP ] && [ $INFOCMP != " " ]; then
 	echo "ncurses-devel        : Installed!"
 else
-	echo "ncurses-devel        : Missing! (only needed for Coolstream build)"
+	echo "ncurses-devel        : Missing!"
 fi
 #---------------------------------------------#
 if [ -e "/usr/include/zlib.h" ]; then
