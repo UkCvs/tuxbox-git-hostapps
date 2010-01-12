@@ -1,5 +1,5 @@
 #!/bin/sh
-# $Id: toolchecker.sh,v 1.9 2009/12/07 10:25:53 striper Exp $
+# $Id: toolchecker.sh,v 1.10 2010/01/12 17:18:17 striper Exp $
 #
 #
 # This program is free software; you can redistribute it and/or modify
@@ -163,6 +163,14 @@ if [ $YACC ] && [ $YACC != " " ]; then
 	echo "yacc                 : Installed!"
 else
 	echo "yacc                 : Missing!"
+fi
+#---------------------------------------------#
+TIC=`which tic 2>/dev/null`
+INFOCMP=`which infocmp 2>/dev/null`
+if [ $TIC ] && [ $TIC != " " ] && [ $INFOCMP ] && [ $INFOCMP != " " ]; then
+	echo "ncurses-devel        : Installed!"
+else
+	echo "ncurses-devel        : Missing! (only needed for Coolstream build)"
 fi
 #---------------------------------------------#
 if [ -e "/usr/include/zlib.h" ]; then
