@@ -1,5 +1,5 @@
 /*
-   $Id: checkImage.c,v 1.8 2009/03/07 18:28:03 rhabarber1848 Exp $
+   $Id: checkImage.c,v 1.9 2010/04/26 18:12:43 rhabarber1848 Exp $
 
    Check images for bad magics
 
@@ -31,12 +31,14 @@
 #include <libgen.h>
 void usage(char* name)
 {
-    fprintf(stderr, "%s - $Revision: 1.8 $\n",name);
+    fprintf(stderr, "%s - $Revision: 1.9 $\n",name);
 	fprintf(stderr, "Check images for bad magics\n\n");
 	fprintf(stderr, "Usage: %s [OPTION] <imagefile>\n\n", name);
 	fprintf(stderr, "Options:\n");
 	fprintf(stderr, "-h : display this help\n\n");
 	fprintf(stderr, "-d : enable debug output\n");
+	fprintf(stderr, "-1 : force 1-chip test mode\n");
+	fprintf(stderr, "-2 : force 2-chip test mode\n");
 #ifdef SKIP_UBOOT
 	fprintf(stderr, "-f : u-boot is at first partition\n");
 	fprintf(stderr, "-l : u-boot is at last partition\n");
@@ -85,6 +87,9 @@ int getFlashType(int fd, int imgsize)
 {
 	int pos = CHECKOFFSET;
 	int checkIntervall = CHECKINTERVAL_1X;
+	if (chips = 2)
+		checkIntervall = CHECKINTERVAL_2X;
+
 	unsigned char value[23];
 
     while ( pos <= imgsize)
@@ -285,10 +290,10 @@ int main(int argc, char *argv[])
 		int c;
 
 #ifdef SKIP_UBOOT
-		if ((c = getopt(argc, argv, "dfhlv")) < 0)
+		if ((c = getopt(argc, argv, "dfhlv12")) < 0)
 			break;
 #else
-		if ((c = getopt(argc, argv, "dhv")) < 0)
+		if ((c = getopt(argc, argv, "dhv12")) < 0)
 			break;
 #endif
 
@@ -301,6 +306,13 @@ int main(int argc, char *argv[])
 
 			case 'v': verbose=1;
 					break;
+
+			case '1': chips=1;
+					break;
+
+			case '2': chips=2;
+					break;
+
 #ifdef SKIP_UBOOT
 			case 'f': skipuboot = 0x01ffe9;
 					break;

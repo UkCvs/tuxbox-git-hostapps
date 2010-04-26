@@ -1,5 +1,5 @@
 /*
-   $Id: checkImage.h,v 1.2 2005/07/29 23:31:34 mogway Exp $
+   $Id: checkImage.h,v 1.3 2010/04/26 18:12:43 rhabarber1848 Exp $
 
    Check images for bad magics
 
@@ -52,6 +52,7 @@
 
 int debug          = 0;
 int verbose        = 0;
+int chips          = 0;
 int bad            = 0;
 int skipuboot      = 0;
 
