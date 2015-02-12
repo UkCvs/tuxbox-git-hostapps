@@ -39,6 +39,7 @@
 
 #include <endian.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include "mkflfs.h"
 #include <string.h>
 #include "minilzo.h"
