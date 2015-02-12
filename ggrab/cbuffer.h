@@ -1,5 +1,5 @@
 typedef long long CBUFPTR;
-extern void errexit(char *);
+extern void errexit(const char *);
 extern int gpadding;
 
 

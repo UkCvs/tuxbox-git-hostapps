@@ -1,12 +1,12 @@
 
-int 	openStream(char * name, int port, int pid, int udpport, int * udpsocket);
+int 	openStream(const char * name, int port, int pid, int udpport, int * udpsocket);
 void  * readstream (class pesstream & ss);
 
 
 class pesstream {
 
 	public:
-		pesstream (S_TYPE stype, char * p_boxname, int pid, int port, int udpport, bool log, bool debug, bool realtime);
+		pesstream (S_TYPE stype, const char * p_boxname, int pid, int port, int udpport, bool log, bool debug, bool realtime);
 		~pesstream(void);
 		int get_sid (void);
 		void set_sid (int sid);

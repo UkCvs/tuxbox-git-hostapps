@@ -21,7 +21,7 @@
 #include "pesstream.h"
 
 
-pesstream::pesstream (S_TYPE stype, char * p_boxname, int pid, int port, int udpport, bool logging, bool debug, bool realtime) {
+pesstream::pesstream (S_TYPE stype, const char * p_boxname, int pid, int port, int udpport, bool logging, bool debug, bool realtime) {
 
 	static struct 	timezone tz;
 	int 		bufsiz;
@@ -570,7 +570,7 @@ void pesstream::get_pp_stats (char * p_buffer, int len) {
 	
 int pesstream::m_st_nr;
 		
-int openStream(char * name, int port, int pid, int udpport, int * udpsocket) {
+int openStream(const char * name, int port, int pid, int udpport, int * udpsocket) {
 
 	struct hostent * hp = gethostbyname(name);
 		
@@ -613,7 +613,8 @@ int openStream(char * name, int port, int pid, int udpport, int * udpsocket) {
 		sprintf(buffer, "GET /%x HTTP/1.0\r\n\r\n", pid);
 	}
 	
-	write(sock, buffer, strlen(buffer));
+	if (write(sock, buffer, strlen(buffer)) == -1)
+		perror("error write");
 
 	return sock;
 }
@@ -645,7 +646,8 @@ void  * readstream (class pesstream & ss) {
 		}	
 */
 #ifndef __CYGWIN__
-		nice(-10);
+		if (nice(-10) == -1);
+			perror("error changing nice value");
 #endif
 	}
 	if (ss.m_log) {

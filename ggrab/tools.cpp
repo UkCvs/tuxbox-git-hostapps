@@ -111,7 +111,7 @@ fill_pp_scr (unsigned char * p_pp, double scr) {
 	p_pp[9] = 0x01;       
 }
 
-void errexit (char * str) {
+void errexit (const char * str) {
 	fprintf (stderr,"%s\n",str);
 	if (gcore) {
 		*((char *)0) = 0;
@@ -119,7 +119,7 @@ void errexit (char * str) {
 	exit (1);
 }
 
-FILE * open_next_output_file (FILE * fp,char * p_basename, char * p_ext, int & seq) {
+FILE * open_next_output_file (FILE * fp, char * p_basename, const char * p_ext, int & seq) {
 
 	char a_filename [256];
 	struct  stat stats;

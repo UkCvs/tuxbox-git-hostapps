@@ -46,15 +46,15 @@ bool	g_realtime = true;
 // Default parameters
 bool	 gnosectionsd	 = false;
 
-int 	toggle_sectionsd(char * p_name);
+int 	toggle_sectionsd(const char * p_name);
 void  *	readkeyboard (void * p_arg);
 void 	install_signal_handler (void) ;
 void 	sighandler (int num);
-void 	generate_program_stream (int a_pid[], int anz_pids, char * p_boxname, int port, int udpbase, 
+void 	generate_program_stream (int a_pid[], int anz_pids, const char * p_boxname, int port, int udpbase,
 		bool logging, bool debug, long long max_file_size, bool quiet, int duration);
-void    generate_nomux_streams (int a_pid[], int anz_pids, char * p_boxname, int port, int udpbase, 
+void    generate_nomux_streams (int a_pid[], int anz_pids, const char * p_boxname, int port, int udpbase,
 		bool logging, bool debug, long long max_file_size, bool quiet, int duration);
-void    generate_raw_audio (int a_pid[], int anz_pids, char * p_boxname, int port, int udpbase, 
+void    generate_raw_audio (int a_pid[], int anz_pids, const char * p_boxname, int port, int udpbase,
 		bool logging, bool debug, long long max_file_size, bool quiet, int duration);
 
 int main( int argc, char *argv[] ) {
@@ -71,7 +71,7 @@ int main( int argc, char *argv[] ) {
 	bool		debug		= false;
 
 	//some default parameters for arguments
-	char  * 	dbox2name 	= "dbox";
+	const char  * 	dbox2name 	= "dbox";
 	time_t 		duration	= 24 * 3600;
 	long long 	max_file_size   = 2LL * 1024 * 1024 * 1024 - 1;
 	enum {MPEG_PP, MPEG_PES, MPEG_RAW} rectype = MPEG_PP;
@@ -295,7 +295,7 @@ void  * readkeyboard (void * p_arg) {
 	}
 }
 
-int toggle_sectionsd(char * p_name) {
+int toggle_sectionsd(const char * p_name) {
 
 	static bool	sectionsd_stopped = false;
 	int	r;
@@ -341,7 +341,8 @@ int toggle_sectionsd(char * p_name) {
 		sprintf(buffer, "GET /control/zapto?stopsectionsd HTTP/1.0\r\n\r\n");
 		sectionsd_stopped=true;
 	}
-	write(sock, buffer, strlen(buffer));
+	if (write(sock, buffer, strlen(buffer)) == -1)
+		perror("error write");
 
 	sleep(1);
 	r=read(sock, buffer, 100);
@@ -349,7 +350,7 @@ int toggle_sectionsd(char * p_name) {
 	return (0);
 }
 
-void generate_program_stream (int a_pid[], int anz_pids, char * p_boxname, int port, int udpbase, 
+void generate_program_stream (int a_pid[], int anz_pids, const char * p_boxname, int port, int udpbase,
 			bool logging, bool debug, long long max_file_size, bool quiet, int duration) {
 
 	static unsigned char a_sheader[12 + 10 * 3] = { 
@@ -513,7 +514,7 @@ void generate_program_stream (int a_pid[], int anz_pids, char * p_boxname, int p
 	}
 }
 	
-void generate_nomux_streams (int a_pid[], int anz_pids, char * p_boxname, int port, int udpbase, bool logging, bool debug, long long max_file_size, bool quiet, int duration) {
+void generate_nomux_streams (int a_pid[], int anz_pids, const char * p_boxname, int port, int udpbase, bool logging, bool debug, long long max_file_size, bool quiet, int duration) {
 
 	class pesstream * 	p_st[10];
 	char * 			p_basename[10];
@@ -606,7 +607,7 @@ void generate_nomux_streams (int a_pid[], int anz_pids, char * p_boxname, int po
 	}
 }
 
-void generate_raw_audio (int a_pid[], int anz_pids, char * p_boxname, int port, int udpbase, bool logging, bool debug, long long max_file_size, bool quiet, int duration) {
+void generate_raw_audio (int a_pid[], int anz_pids, const char * p_boxname, int port, int udpbase, bool logging, bool debug, long long max_file_size, bool quiet, int duration) {
 
 	class pesstream * 	p_st[10];
 	char * 			p_basename[10];

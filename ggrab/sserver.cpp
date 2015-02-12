@@ -60,14 +60,14 @@ int main(int argc, char * argv[])
 	socklen_t clilen = sizeof(cliaddr);
 
 	a_arg[0] = a_grabname;
-	a_arg[1] = "-p";
+	a_arg[1] = (char *)"-p";
 	a_arg[2] = a_vpid;
 	a_arg[3] = a_apid;
-	a_arg[4] = "-o";
+	a_arg[4] = (char *)"-o";
 	a_arg[5] = a_filename;
-	a_arg[6] = "-host";
+	a_arg[6] = (char *)"-host";
 	a_arg[7] = a_host;
-	a_arg[8] = "-nos";
+	a_arg[8] = (char *)"-nos";
 
 	strcpy (a_grabname,argv[0]);
 	if (strrchr(a_grabname,'/')){
@@ -256,7 +256,7 @@ int main(int argc, char * argv[])
 
 
 /* Shameless stolen from TuxVision */
-char* ParseForString(char *szStr, char *szSearch, int ptrToEnd)
+char* ParseForString(char *szStr, const char *szSearch, int ptrToEnd)
 {
     char *p=NULL;
     p=strstr(szStr, szSearch);
